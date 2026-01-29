@@ -4,8 +4,11 @@ A full-stack application for managing agents and distributing leads from CSV/XLS
 
 ## **Features**
 - **Admin Login**: JWT-based authentication for admins.
-- **Agent Management**: Create and list agents with name, email, and mobile details.
+- **Agent Management**: Complete CRUD functionality (Add, Edit, List, and Delete agents).
+- **Phone Validation**: Enforces standard Indian format (`+91` followed by 10 digits) and ensures uniqueness across all agents.
 - **Lead Distribution**: Upload CSV/XLSX files and automatically distribute leads equally among agents.
+- **Lead Replacement**: Automatically replaces existing leads when a file with the same name is re-uploaded.
+- **Lead Clearance**: Simple "Clear All Leads" button to wipe distribution data for fresh uploads.
 - **Sequential Distribution**: If the number of leads is not divisible by the number of agents, remaining leads are assigned sequentially.
 
 ---
@@ -72,14 +75,20 @@ The application will be available at `http://localhost:5173` (or the port shown 
 
 ## **How to Use**
 
-1. **Create Admin**: Since there is no "Signup" page for admins (per requirements), use the `/api/users/register` endpoint via Postman or CURL to create the first admin, or let the app handle it (Implementation includes a register route).
-2. **Login**: Login with the admin credentials.
-3. **Add Agents**: Go to "Add Agent" and create at least 5 agents (as per tests).
+1. **Create Admin**: Use the register endpoint to create an admin account.
+2. **Login**: Access the dashboard using admin credentials.
+3. **Manage Agents**: 
+   - Add at least 5 agents.
+   - Use the **Edit** button to update details.
+   - Use the **Delete** button to remove agents.
+   - Note: Phone numbers must start with `+91` followed by 10 digits.
 4. **Upload Leads**: 
    - Go to "Upload Leads".
-   - Upload a `.csv` or `.xlsx` file.
-   - The file should have headers: `FirstName`, `Phone`, `Notes`.
-5. **View Leads**: Check the "View Leads" page to see how the leads were distributed among agents.
+   - Upload a `.csv` or `.xlsx` file (Headers: `FirstName`, `Phone`, `Notes`).
+   - If you upload the same filename again, it will **replace** the previous leads for that file.
+5. **View Leads**: 
+   - Check the "View Leads" page to see distribution.
+   - Use **Clear All Leads** to reset the data.
 
 ---
 
