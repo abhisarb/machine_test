@@ -76,6 +76,9 @@ The application will be available at `http://localhost:5173` (or the port shown 
 ## **How to Use**
 
 1. **Create Admin**: Use the register endpoint to create an admin account.
+   - **Default Admin Credentials**:
+     - **Email**: `admin@example.com`
+     - **Password**: `password123`
 2. **Login**: Access the dashboard using admin credentials.
 3. **Manage Agents**: 
    - Add at least 5 agents.
