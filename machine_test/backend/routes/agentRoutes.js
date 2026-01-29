@@ -1,9 +1,8 @@
 const express = require('express');
-const { addAgent, getAgents, updateAgent, deleteAgent } = require('../controllers/agentController');
+const { addAgent, getAgents } = require('../controllers/agentController');
 const { protect } = require('../middlewares/authMiddleware');
 const router = express.Router();
 
 router.route('/').post(protect, addAgent).get(protect, getAgents);
-router.route('/:id').put(protect, updateAgent).delete(protect, deleteAgent);
 
 module.exports = router;

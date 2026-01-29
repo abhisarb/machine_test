@@ -9,14 +9,6 @@ const AddAgent = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Frontend validation
-        const phoneRegex = /^\+91\d{10}$/;
-        if (!phoneRegex.test(formData.mobile)) {
-            setError('Phone number must be in format +91 followed by 10 digits (e.g. +919876543210)');
-            return;
-        }
-
         try {
             const token = localStorage.getItem('token');
             await axios.post('http://localhost:5000/api/agents', formData, {

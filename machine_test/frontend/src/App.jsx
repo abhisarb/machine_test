@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import LoginPage from './pages/LoginPage';
 import Dashboard from './pages/Dashboard';
 import AddAgent from './pages/AddAgent';
-import EditAgent from './pages/EditAgent';
 import UploadLeads from './pages/UploadLeads';
 import LeadList from './pages/LeadList';
 
@@ -16,7 +15,6 @@ function App() {
                 <Route path="/login" element={!isAuthenticated ? <LoginPage /> : <Navigate to="/" />} />
                 <Route path="/" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
                 <Route path="/add-agent" element={isAuthenticated ? <AddAgent /> : <Navigate to="/login" />} />
-                <Route path="/edit-agent/:id" element={isAuthenticated ? <EditAgent /> : <Navigate to="/login" />} />
                 <Route path="/upload" element={isAuthenticated ? <UploadLeads /> : <Navigate to="/login" />} />
                 <Route path="/leads" element={isAuthenticated ? <LeadList /> : <Navigate to="/login" />} />
             </Routes>

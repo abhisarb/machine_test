@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const { uploadLeads, getLeads, clearLeads } = require('../controllers/leadController');
+const { uploadLeads, getLeads } = require('../controllers/leadController');
 const { protect } = require('../middlewares/authMiddleware');
 const router = express.Router();
 
@@ -18,7 +18,6 @@ const upload = multer({
 });
 
 router.route('/').get(protect, getLeads);
-router.route('/clear').delete(protect, clearLeads);
 router.post('/upload', protect, upload.single('file'), uploadLeads);
 
 module.exports = router;

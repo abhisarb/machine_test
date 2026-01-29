@@ -16,28 +16,11 @@ const LeadList = () => {
         fetchLeads();
     }, []);
 
-    const handleClear = async () => {
-        if (window.confirm('Are you sure you want to clear all leads?')) {
-            try {
-                const token = localStorage.getItem('token');
-                await axios.delete('http://localhost:5000/api/leads/clear', {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                setLeads([]);
-            } catch (err) {
-                alert('Failed to clear leads');
-            }
-        }
-    };
-
     return (
         <div>
             <nav className="navbar">
                 <h1>Distributed Leads</h1>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <Link to="/" className="btn" style={{ background: '#e2e8f0', marginRight: '1rem' }}>Back to Dashboard</Link>
-                    <button onClick={handleClear} className="btn" style={{ background: '#fee2e2', color: '#ef4444' }}>Clear All Leads</button>
-                </div>
+                <Link to="/" className="btn" style={{ background: '#e2e8f0' }}>Back to Dashboard</Link>
             </nav>
             <div className="container">
                 <div className="card">

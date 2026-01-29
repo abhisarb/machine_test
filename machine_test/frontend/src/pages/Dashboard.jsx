@@ -21,20 +21,6 @@ const Dashboard = () => {
         window.location.href = '/login';
     };
 
-    const handleDelete = async (id) => {
-        if (window.confirm('Are you sure you want to delete this agent?')) {
-            try {
-                const token = localStorage.getItem('token');
-                await axios.delete(`http://localhost:5000/api/agents/${id}`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                setAgents(agents.filter(agent => agent._id !== id));
-            } catch (err) {
-                alert('Failed to delete agent');
-            }
-        }
-    };
-
     return (
         <div>
             <nav className="navbar">
@@ -59,7 +45,6 @@ const Dashboard = () => {
                                 <th style={{ padding: '0.75rem' }}>Name</th>
                                 <th style={{ padding: '0.75rem' }}>Email</th>
                                 <th style={{ padding: '0.75rem' }}>Mobile</th>
-                                <th style={{ padding: '0.75rem' }}>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -68,10 +53,6 @@ const Dashboard = () => {
                                     <td style={{ padding: '0.75rem' }}>{agent.name}</td>
                                     <td style={{ padding: '0.75rem' }}>{agent.email}</td>
                                     <td style={{ padding: '0.75rem' }}>{agent.mobile}</td>
-                                    <td style={{ padding: '0.75rem' }}>
-                                        <Link to={`/edit-agent/${agent._id}`} className="btn" style={{ background: '#e2e8f0', color: '#1e293b', marginRight: '0.5rem', textDecoration: 'none', padding: '0.25rem 0.5rem', fontSize: '0.875rem' }}>Edit</Link>
-                                        <button onClick={() => handleDelete(agent._id)} className="btn" style={{ background: '#fee2e2', color: '#ef4444', padding: '0.25rem 0.5rem', fontSize: '0.875rem' }}>Delete</button>
-                                    </td>
                                 </tr>
                             ))}
                         </tbody>

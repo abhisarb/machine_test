@@ -10,11 +10,10 @@ const uploadLeads = async (req, res) => {
     }
 
     const filePath = req.file.path;
-    const originalName = req.file.originalname;
     const results = [];
 
     try {
-        if (req.file.mimetype === 'text/csv' || req.file.originalname.endsWith('.csv')) {
+        if (req.file.mimetype === 'text/csv') {
             await new Promise((resolve, reject) => {
                 fs.createReadStream(filePath)
                     .pipe(csv())
@@ -35,9 +34,6 @@ const uploadLeads = async (req, res) => {
             return res.status(400).json({ message: 'No agents found to distribute leads' });
         }
 
-        // Delete existing leads with the same original filename
-        await Lead.deleteMany({ filename: originalName });
-
         const leadsToSave = [];
         results.forEach((item, index) => {
             const agentIndex = index % agents.length;
@@ -45,7 +41,6 @@ const uploadLeads = async (req, res) => {
                 firstName: item.FirstName || item.firstName,
                 phone: item.Phone || item.phone,
                 notes: item.Notes || item.notes,
-                filename: originalName,
                 agent: agents[agentIndex]._id,
             });
         });
@@ -53,33 +48,15 @@ const uploadLeads = async (req, res) => {
         await Lead.insertMany(leadsToSave);
         fs.unlinkSync(filePath);
 
-        res.status(201).json({
-            message: `Old leads for '${originalName}' removed. New leads distributed successfully among ${agents.length} agents.`,
-            count: leadsToSave.length
-        });
+        res.status(201).json({ message: 'Leads distributed successfully', count: leadsToSave.length });
     } catch (error) {
-        console.error('Upload Error:', error);
         res.status(500).json({ message: 'Error processing file', error: error.message });
     }
 };
+
 const getLeads = async (req, res) => {
-    try {
-        const leads = await Lead.find({}).populate('agent', 'name email');
-        res.json(leads);
-    } catch (error) {
-        console.error('Get Leads Error:', error);
-        res.status(500).json({ message: 'Error fetching leads', error: error.message });
-    }
+    const leads = await Lead.find({}).populate('agent', 'name email');
+    res.json(leads);
 };
 
-const clearLeads = async (req, res) => {
-    try {
-        await Lead.deleteMany({});
-        res.json({ message: 'All leads cleared successfully' });
-    } catch (error) {
-        console.error('Clear Leads Error:', error);
-        res.status(500).json({ message: 'Error clearing leads', error: error.message });
-    }
-};
-
-module.exports = { uploadLeads, getLeads, clearLeads };
+module.exports = { uploadLeads, getLeads };
